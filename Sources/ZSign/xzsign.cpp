@@ -9,13 +9,14 @@
 #include <getopt.h>
 
 int zsign(const char *path,
-
 		  const char *certFile,
 		  const char *pKeyFile,
 		  const char *provFile,
 		  const char *password,
 		  const char *bundleId,
-		  const char *displayName)
+		  const char *displayName,
+		  const char *entitlementsFile,  // ✅ добавлено
+		  const char *dyLibFile)         // ✅ добавлено
 {
 	bool bWeakInject = false;
 	bool bForce = true;
@@ -27,9 +28,9 @@ int zsign(const char *path,
 	string strPassword = password ? password : "";
 	string strBundleId = bundleId ? bundleId : "";
 	string strDisplayName = displayName ? displayName : "";
+	string strEntitlementsFile = entitlementsFile ? entitlementsFile : "";  
+	string strDyLibFile = dyLibFile ? dyLibFile : "";                       
 	string strBundleVersion;
-	string strDyLibFile;
-	string strEntitlementsFile;
 
 	cout << strPKeyFile << endl;
 
@@ -43,6 +44,7 @@ int zsign(const char *path,
 	ZSignAsset zSignAsset;
 	if (!zSignAsset.Init(strCertFile, strPKeyFile, strProvFile, strEntitlementsFile, strPassword))
 	{
+		ZLog::Error(">>> Init Cert/Provision Failed!\n");
 		return -1;
 	}
 
@@ -52,6 +54,7 @@ int zsign(const char *path,
 
 	return bRet ? 0 : -1;
 }
+
 
 /*int zsign(const char *path,
 
