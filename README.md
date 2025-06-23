@@ -25,12 +25,18 @@ p12KeyPath is self explanitory and is for the .p12 file of your certificate.
 provisioningProfilePath is also self explanitory and is for the .mobileprovision file of your certificate.
 
 ```swift
+import ZSign
+
 let code = zsign(
-    folderToSign,
-    certPath,
-    p12KeyPath,
-    provisioningProfilePath,
-    p12Password
+    folderToSign,              // Path to extracted folder (e.g., /path/to/Payload)
+    certPath,                  // Path to .cer or .pem certificate (optional if using .p12)
+    p12KeyPath,                // Path to .p12 certificate
+    provisioningProfilePath,  // Path to .mobileprovision
+    p12Password,              // Password for the .p12 file
+    bundleId,                 // Optional: Override the bundle identifier
+    displayName,              // Optional: Override the display name
+    entitlementsPath,         // Optional: Path to entitlements .plist file
+    dylibPath                 // Optional: Path to .dylib to inject into main executable
 )
 ```
 Once the app is signed it will return a code which 0 means it signed correclty and returned no errors.
