@@ -19,7 +19,9 @@ extern "C"
               const char *provFile,
               const char *password,
               const char *bundleId,
-              const char *displayName);
+              const char *displayName,
+              const char *entitlementsFile,  // ✅ добавлено
+              const char *dyLibFile);        // ✅ добавлено
 
 #ifdef __cplusplus
 }
