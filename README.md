@@ -1,4 +1,4 @@
-# zsign-ios
+# zsign-glesigner
 This is an implementation package of [zsign](https://github.com/zhlynn/zsign) to sign apps for Apple Devices. This comes included with OpenSSL as a package.
 
 ## How To Install
