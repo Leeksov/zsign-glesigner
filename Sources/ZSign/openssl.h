@@ -1,10 +1,5 @@
 #pragma once
-#include "common/json.h"
-
-bool GetCertSubjectCN(const string &strCertData, string &strSubjectCN);
-bool GetCMSInfo(uint8_t *pCMSData, uint32_t uCMSLength, JValue &jvOutput);
-bool GetCMSContent(const string &strCMSDataInput, string &strContentOutput);
-bool GenerateCMS(const string &strSignerCertData, const string &strSignerPKeyData, const string &strCDHashData, const string &strCDHashPlist, string &strCMSOutput);
+#include "json.h"
 
 class ZSignAsset
 {
@@ -12,16 +7,65 @@ public:
 	ZSignAsset();
 
 public:
-	bool GenerateCMS(const string &strCDHashData, const string &strCDHashesPlist, const string &strCodeDirectorySlotSHA1, const string &strAltnateCodeDirectorySlot256, string &strCMSOutput);
-	bool Init(const string &strSignerCertFile, const string &strSignerPKeyFile, const string &strProvisionFile, const string &strEntitlementsFile, const string &strPassword);
+	bool Init(const string& strCertFile, 
+				const string& strPKeyFile,
+				const string& strProvFile,
+				const string& strEntitleFile,
+				const string& strPassword,
+				bool bAdhoc,
+				bool bSHA256Only,
+				bool bSingleBinary);
 
-public:
-	string m_strTeamId;
-	string m_strSubjectCN;
-	string m_strProvisionData;
-	string m_strEntitlementsData;
+	bool GenerateCMS(const string& strCDHashData, 
+						const string& strCDHashesPlist, 
+						const string& strCodeDirectorySlotSHA1, 
+						const string& strAltnateCodeDirectorySlot256, 
+						string& strCMSOutput);
 
 private:
-	void *m_evpPKey;
-	void *m_x509Cert;
+	bool GenerateCMS(void* pscert, 
+						void* pspkey, 
+						const string& strCDHashData, 
+						const string& strCDHashesPlist, 
+						const string& strCodeDirectorySlotSHA1, 
+						const string& strAltnateCodeDirectorySlot256, 
+						string& strCMSOutput);
+
+	bool GetCertSubjectCN(void* cert, string& strSubjectCN);
+	bool GetCertSubjectCN(const string& strCertData, string& strSubjectCN);
+
+public:
+	static bool		CMSError();
+	static void*	GenerateASN1Type(const string& value);
+	static bool		GetCertInfo(void* pcert, jvalue& jvCertInfo);
+	static bool		GetCMSInfo(uint8_t* pCMSData, uint32_t uCMSLength, jvalue& jvOutput);
+	static bool		GetCMSContent(const string& strCMSDataInput, string& strContentOutput);
+	static void		ParseCertSubject(const string& strSubject, jvalue& jvSubject);
+	static string	ASN1_TIMEtoString(const void* time);
+
+public:
+	bool	m_bAdhoc;
+	bool	m_bSHA256Only;
+	bool	m_bSingleBinary;
+	string	m_strTeamId;
+	string	m_strSubjectCN;
+	string	m_strProvData;
+	string	m_strEntitleData;
+
+public:
+	void*	m_evpPKey;
+	void*	m_x509Cert;
+
+public:
+	static const char* s_szAppleDevCACert;
+	static const char* s_szAppleRootCACert;
+	static const char* s_szAppleDevCACertG3;
+
+public:
+	class OpenSSLInit
+	{
+	public:
+		OpenSSLInit();
+	};
+	static OpenSSLInit s_OpenSSLInit;
 };

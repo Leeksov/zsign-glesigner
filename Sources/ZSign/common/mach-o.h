@@ -450,7 +450,8 @@ struct dylib_command {
 
 //////CodeSignature
 
-enum {
+enum eCSFLAGS
+{
 	CSMAGIC_REQUIREMENT = 0xfade0c00,		/* single Requirement blob */
 	CSMAGIC_REQUIREMENTS = 0xfade0c01,		/* Requirements vector (internal requirements) */
 	CSMAGIC_CODEDIRECTORY = 0xfade0c02,		/* CodeDirectory blob */
@@ -498,6 +499,10 @@ enum {
 	CS_SIGNER_TYPE_UNKNOWN = 0,
 	CS_SIGNER_TYPE_LEGACYVPN = 5,
 
+/*
+ * Flags that can be specified in `CS_CodeDirectory::flags`.
+ */
+	CS_SEC_CODESIGNATURE_ADHOC = 0x0002,				/* kSecCodeSignatureAdhoc */
 };
 
 #pragma pack(push, 1)

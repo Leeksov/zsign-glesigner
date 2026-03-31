@@ -17,9 +17,30 @@ let package = Package(
         .target(
             name: "ZSign",
             dependencies: ["OpenSSL"],
+            exclude: [
+                "common/archive.cpp",
+                "zsign.cpp"
+            ],
+            sources: [
+                "archo.cpp",
+                "bundle.cpp",
+                "macho.cpp",
+                "openssl.cpp",
+                "openssl_tools.mm",
+                "signing.cpp",
+                "zsign.mm",
+                "common/base64.cpp",
+                "common/fs.cpp",
+                "common/json.cpp",
+                "common/log.cpp",
+                "common/sha.cpp",
+                "common/timer.cpp",
+                "common/util.cpp"
+            ],
             publicHeadersPath: "./Includes",
             cxxSettings: [
                 .headerSearchPath("."),
+                .headerSearchPath("common"),
             ],
             linkerSettings: [
                 .linkedFramework("OpenSSL"),
@@ -30,5 +51,5 @@ let package = Package(
             path: "Binaries/OpenSSL.xcframework"
         ),
     ],
-    cxxLanguageStandard: .cxx14
+    cxxLanguageStandard: .cxx17
 )
